@@ -1,0 +1,16 @@
+---
+description: "Cursor rules for checking that the app and its critical user journeys still work in a real browser after AI code changes, with stillworks."
+globs: **/*
+alwaysApply: true
+---
+When you change application code (not only docs, comments or tests), check the app still works before you say you're done:
+
+1. Make sure the dev server is running.
+2. If the project has `journeys.config.ts`, run `npx stillworks run --no-promo`. It runs signup, login, checkout and the other journeys in a real browser.
+   If it doesn't, run `npx stillworks check http://localhost:3000 --no-promo` (use the dev server's URL). It opens the app and its key pages, read-only, and reports pages that don't load, "not found" screens, JavaScript crashes and failing API calls.
+3. If it fails, read `verify-report/REPORT.md` and the screenshot it points to. Fix the root cause, starting from the failed requests and console errors.
+   - Don't change files unrelated to the failure.
+   - Don't edit `journeys.config.ts` to make a check pass.
+4. Run it again until everything passes (at most 3 tries), then say what broke and what you changed.
+
+Setup: `npx stillworks install` once for the browser. To write journeys: `npx stillworks init` (https://github.com/valmirjunior2109-spec/stillworks).
